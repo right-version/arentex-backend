@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, ARRAY
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, ARRAY, JSON
+from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import null
 
@@ -47,7 +48,7 @@ class Product(Base):
     images = Column(ARRAY(String))
     thumbnail = Column(String, nullable=True)
     # date_added
-    # specifications json
+    specifications = Column(JSON, default={})
     
     store_id = Column(Integer, ForeignKey("stores.id"))
     store = relationship("Store", back_populates="products")

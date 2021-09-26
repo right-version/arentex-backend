@@ -1,5 +1,5 @@
 from app.models.models import Store, Subcategory
-from typing import List, Optional
+from typing import List, Optional, Any
 
 from pydantic import BaseModel
 
@@ -52,6 +52,7 @@ class ProductBase(BaseModel):
     price: float
     images: list[str]
     thumbnail: Optional[str] = None
+    specifications: Optional[Any] = None
     store_id: int
     category: CategoryInDB
     subcategory: SubcategoryInDB

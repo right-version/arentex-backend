@@ -2,6 +2,7 @@ import os
 import sys
 import random
 from pathlib import Path
+import ast
 
 parentdir = os.path.dirname(".")
 sys.path.insert(0, parentdir)
@@ -173,6 +174,7 @@ if __name__ == "__main__":
             price=random.uniform(200, 1500),
             images=row["images"],
             thumbnail=row["images"][0].replace("full", "thumb"),
+            specifications=ast.literal_eval(row["specifications"]),
             store_id=store_id,
             category_id=category_id,
             subcategory_id=subcategory_id
