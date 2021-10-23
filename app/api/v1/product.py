@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Path
 from fastapi.encoders import jsonable_encoder
@@ -14,7 +14,7 @@ router = APIRouter()
 
 
 @router.get("/{id}/", response_model=ProductInDB)
-def get_store(
+def get_product(
     *,
     db: Session = Depends(get_db),
     id: int = Path(...),
@@ -25,6 +25,21 @@ def get_store(
     return product
 
 @router.get("/", response_model=List[ProductInDB])
-def get_stores(db: Session = Depends(get_db), skip: int = 0, limit: int = 10):
-    products = crud_product.get_multi(db, skip=skip, limit=limit)
+def get_products(
+    db: Session = Depends(get_db), 
+    skip: int = 0, 
+    limit: int = 10,
+    category: Optional[int] = None,
+    subcategory: Optional[int] = None,
+    store: Optional[int] = None
+):
+    products = crud_product.get_multi(
+        db, 
+        skip=skip, 
+        limit=limit,
+        category=category,
+        subcategory=subcategory,
+        store=store
+    )
+    # print(products)
     return products

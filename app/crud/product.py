@@ -10,8 +10,27 @@ from app.schemas import StoreCreate, ProductInDB
 def get(db: Session, id: int) -> Optional[ProductInDB]:
     return db.query(Product).get(id)
 
-def get_multi(db: Session, *, skip: int = 0, limit: int = 100) -> Optional[ProductInDB]:
-    return db.query(Product).offset(skip).limit(limit).all()
+def get_multi(
+    db: Session, 
+    *, skip: int = 0, 
+    limit: int = 100,
+    category: Optional[int] = None,
+    subcategory: Optional[int] = None,
+    store: Optional[int] = None
+) -> Optional[ProductInDB]:
+    # return db.query(Product).offset(skip).limit(limit).all()
+    query = db.query(Product)
+    if category:
+        print(f"category {category}")
+        query = query.filter(Product.category_id == category)
+    if subcategory:
+        print(f"subcategory {subcategory}")
+        query = query.filter(Product.subcategory_id == subcategory)
+    if store:
+        print(f"store {store}")
+        query = query.filter(Product.store_id == store)
+    return query.offset(skip).limit(limit).all()
+
 
 # def post(db: Session, payload: StoreCreate) -> Optional[StoreInDB]:
 #     exists = db.query(Store).filter_by(title=payload.title).first() is not None
