@@ -11,25 +11,29 @@ from app.schemas import StoreCreate, ProductInDB
 def get(db: Session, id: int) -> Optional[ProductInDB]:
     return db.query(Product).get(id)
 
+# TODO: запилить динамические фильтры
 def get_multi(
     db: Session, 
     *, skip: int = 0, 
     limit: int = 100,
     category: Optional[int] = None,
     subcategory: Optional[int] = None,
-    store: Optional[int] = None
+    store: Optional[int] = None,
+    max_price: Optional[int] = None,
+    min_price: Optional[int] = None
 ) -> Optional[ProductInDB]:
     query = db.query(Product)
     total = query.count()
     if category:
-        print(f"category {category}")
         query = query.filter(Product.category_id == category)
     if subcategory:
-        print(f"subcategory {subcategory}")
         query = query.filter(Product.subcategory_id == subcategory)
     if store:
-        print(f"store {store}")
         query = query.filter(Product.store_id == store)
+    if max_price:
+        query = query.filter(Product.price <= max_price)
+    if min_price:
+        query = query.filter(Product.price >= min_price)
     return total, query.offset(skip).limit(limit).all()
 
 

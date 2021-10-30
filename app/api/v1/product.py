@@ -32,7 +32,9 @@ def get_products(
     limit: int = 10,
     category: Optional[int] = None,
     subcategory: Optional[int] = None,
-    store: Optional[int] = None
+    store: Optional[int] = None,
+    max_price: Optional[int] = None,
+    min_price: Optional[int] = None
 ):
     total, products = crud_product.get_multi(
         db, 
@@ -40,7 +42,9 @@ def get_products(
         limit=limit,
         category=category,
         subcategory=subcategory,
-        store=store
+        store=store,
+        max_price=max_price,
+        min_price=min_price
     )
 
     if products:
