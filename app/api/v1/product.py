@@ -35,7 +35,7 @@ def get_products(
     store: Optional[int] = None,
     max_price: Optional[int] = None,
     min_price: Optional[int] = None
-):
+): 
     total, products = crud_product.get_multi(
         db, 
         skip=skip, 

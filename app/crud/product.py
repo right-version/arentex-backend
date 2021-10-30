@@ -23,7 +23,6 @@ def get_multi(
     min_price: Optional[int] = None
 ) -> Optional[ProductInDB]:
     query = db.query(Product)
-    total = query.count()
     if category:
         query = query.filter(Product.category_id == category)
     if subcategory:
@@ -34,6 +33,7 @@ def get_multi(
         query = query.filter(Product.price <= max_price)
     if min_price:
         query = query.filter(Product.price >= min_price)
+    total = query.count()
     return total, query.offset(skip).limit(limit).all()
 
 
