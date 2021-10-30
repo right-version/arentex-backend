@@ -2,6 +2,7 @@ from typing import List, Optional
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 
 from app.models import Product
 from app.schemas import StoreCreate, ProductInDB
@@ -18,8 +19,8 @@ def get_multi(
     subcategory: Optional[int] = None,
     store: Optional[int] = None
 ) -> Optional[ProductInDB]:
-    # return db.query(Product).offset(skip).limit(limit).all()
     query = db.query(Product)
+    total = query.count()
     if category:
         print(f"category {category}")
         query = query.filter(Product.category_id == category)
@@ -29,7 +30,7 @@ def get_multi(
     if store:
         print(f"store {store}")
         query = query.filter(Product.store_id == store)
-    return query.offset(skip).limit(limit).all()
+    return total, query.offset(skip).limit(limit).all()
 
 
 # def post(db: Session, payload: StoreCreate) -> Optional[StoreInDB]:

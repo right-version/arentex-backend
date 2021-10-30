@@ -1,5 +1,5 @@
 from app.models.models import Store, Subcategory
-from typing import List, Optional, Any
+from typing import Iterable, List, Optional, Any
 
 from pydantic import BaseModel
 
@@ -68,6 +68,14 @@ class ProductInDB(ProductBase):
     class Config:
         orm_mode = True
 
+
+class ProductPaginationPage(BaseModel):
+    items: List[ProductInDB]
+    total: int
+    skip: int
+    limit: int
+    max_price: float
+    min_price: float
 
 # class UserBase(BaseModel):
 #     email: str
