@@ -20,11 +20,15 @@ def get_multi(
     subcategory: Optional[int] = None,
     store: Optional[int] = None,
     max_price: Optional[int] = None,
-    min_price: Optional[int] = None
+    min_price: Optional[int] = None,
+    title: Optional[str] = None
 ) -> Optional[ProductInDB]:
     query = db.query(Product)
     if category:
         query = query.filter(Product.category_id == category)
+    if title:
+        search = "%{}%".format(title)
+        query = query.filter(Product.title.ilike(search))
     if subcategory:
         query = query.filter(Product.subcategory_id == subcategory)
     if store:
