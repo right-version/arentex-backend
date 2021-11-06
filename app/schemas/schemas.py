@@ -24,17 +24,6 @@ class StoreInDB(StoreBase):
         orm_mode = True
 
 
-class CategoryBase(BaseModel):
-    name: str
-
-
-class CategoryInDB(CategoryBase):
-    id: int
-
-    class Config:
-        orm_mode = True
-
-
 class SubcategoryBase(BaseModel):
     name: str
 
@@ -44,7 +33,18 @@ class SubcategoryInDB(SubcategoryBase):
 
     class Config:
         orm_mode = True
-        
+
+
+class CategoryBase(BaseModel):
+    name: str
+
+
+class CategoryInDB(CategoryBase):
+    id: int
+    subcategories: List[SubcategoryInDB]
+    class Config:
+        orm_mode = True
+
 
 class ProductBase(BaseModel):
     title: str

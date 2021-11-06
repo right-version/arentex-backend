@@ -27,6 +27,7 @@ class Category(Base):
     name = Column(String, index=True)
 
     products = relationship("Product", back_populates="category")
+    subcategories = relationship("Subcategory", back_populates="category")
 
 
 class Subcategory(Base):
@@ -34,7 +35,9 @@ class Subcategory(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
+    category_id = Column(Integer, ForeignKey("categories.id"))
 
+    category = relationship("Category", back_populates="subcategories")
     products = relationship("Product", back_populates="subcategory")
 
 

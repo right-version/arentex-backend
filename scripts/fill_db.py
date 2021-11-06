@@ -139,13 +139,24 @@ if __name__ == "__main__":
             db.refresh(new_category)
 
     print("[2/4] Adding subcategories")
-    for subcategory in subcategories:
-        exists = db.query(Subcategory).filter_by(name=category).first() is not None
-        if not exists:
-            new_subcategory = Subcategory(name=subcategory)
-            db.add(new_subcategory)
-            db.commit()
-            db.refresh(new_subcategory)
+    categories = db.query(Category.id, Category.name).all()
+    for category in categories:
+        subcategories = arenter[arenter["category"] == category[1]]["subcategory"].unique()
+        for subcategory in subcategories:
+            exists = db.query(Subcategory).filter_by(name=subcategory).first() is not None
+            if not exists:
+                new_subcategory = Subcategory(name=subcategory, category_id=category[0])
+                db.add(new_subcategory)
+                db.commit()
+                db.refresh(new_subcategory)
+            # new_subcategory = Subcategory(name=subcategory, category_id=category[0])
+    # for subcategory in subcategories:
+    #     exists = db.query(Subcategory).filter_by(name=category).first() is not None
+        # if not exists:
+        #     new_subcategory = Subcategory(name=subcategory)
+        #     db.add(new_subcategory)
+        #     db.commit()
+        #     db.refresh(new_subcategory)
 
     print("[3/4] Adding stores")
     for store in stores:
