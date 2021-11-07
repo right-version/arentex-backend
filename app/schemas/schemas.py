@@ -77,8 +77,10 @@ class ProductPaginationPage(BaseModel):
     total: int
     skip: int
     limit: int
-    max_price: float
-    min_price: float
+    # max_price: float
+    # min_price: float
+    total_max_price: float
+    total_min_price: float
 
 # class UserBase(BaseModel):
 #     email: str

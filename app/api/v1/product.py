@@ -38,7 +38,7 @@ def get_products(
     search: Optional[str] = None,
     sort: Optional[str] = None
 ): 
-    total, products = crud_product.get_multi(
+    total, total_max_price, total_min_price, products = crud_product.get_multi(
         db, 
         skip=skip, 
         limit=limit,
@@ -50,7 +50,7 @@ def get_products(
         title=search,
         sort=sort
     )
-
+    
     if products:
         max_price = max(products, key=lambda x: x.price)
         max_price = max_price.price
@@ -65,7 +65,9 @@ def get_products(
         "total": total,
         "skip": skip,
         "limit": limit,
-        "max_price": max_price,
-        "min_price": min_price
+        # "max_price": max_price,
+        # "min_price": min_price,
+        "total_max_price": total_max_price,
+        "total_min_price": total_min_price
     }
     return response

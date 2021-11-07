@@ -36,6 +36,14 @@ def get_multi(
         query = query.filter(Product.subcategory_id == subcategory)
     if store:
         query = query.filter(Product.store_id == store)
+    
+    products = query.all()
+    total_max_price = max(products, key=lambda x: x.price)
+    total_max_price = total_max_price.price if total_max_price else 0
+    total_min_price = min(products, key=lambda x: x.price)
+    total_min_price = total_min_price.price if total_min_price else 0
+    print(total_max_price, total_min_price)
+    
     if max_price:
         query = query.filter(Product.price <= max_price)
     if min_price:
@@ -52,7 +60,7 @@ def get_multi(
         elif sort == "popular":
             query = query.order_by(Product.popularity.desc())
     total = query.count()
-    return total, query.offset(skip).limit(limit).all()
+    return total, total_max_price, total_min_price, query.offset(skip).limit(limit).all()
 
 
 # def post(db: Session, payload: StoreCreate) -> Optional[StoreInDB]:
