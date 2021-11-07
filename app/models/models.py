@@ -1,10 +1,12 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, ARRAY, JSON
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float, ARRAY, JSON, DateTime
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import null
+from sqlalchemy.sql.functions import func
+
+import random
 
 from app.db.base import Base
-
 
 class Store(Base):
     __tablename__ = "stores"
@@ -50,7 +52,8 @@ class Product(Base):
     price = Column(Float, nullable=False)
     images = Column(ARRAY(String))
     thumbnail = Column(String, nullable=True)
-    # date_added
+    date = Column(DateTime, default=func.now())
+    popularity = Column(Float, default=random.random)
     specifications = Column(JSON, default={})
     
     store_id = Column(Integer, ForeignKey("stores.id"))

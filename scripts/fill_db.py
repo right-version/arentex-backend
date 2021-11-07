@@ -1,6 +1,7 @@
 import os
 import sys
 import random
+import time
 from pathlib import Path
 import ast
 
@@ -123,6 +124,20 @@ def rename_image_url(url):
     return f"/{parts[1]}/{parts[-2]}/{parts[-1]}"
 
 
+def str_time_prop(start, end, time_format, prop):
+
+    stime = time.mktime(time.strptime(start, time_format))
+    etime = time.mktime(time.strptime(end, time_format))
+
+    ptime = stime + prop * (etime - stime)
+
+    return time.strftime(time_format, time.localtime(ptime))
+
+
+def random_date(start, end, prop):
+    return str_time_prop(start, end, "%m/%d/%Y %I:%M %p", prop)
+
+
 if __name__ == "__main__":
     categories = arenter["category"].unique()
     subcategories = arenter["subcategory"].unique()
@@ -185,6 +200,7 @@ if __name__ == "__main__":
             price=random.uniform(200, 1500),
             images=row["images"],
             thumbnail=row["images"][0].replace("full", "thumb"),
+            date=random_date("1/1/2021 1:30 PM", "1/11/2021 4:50 AM", random.random()),
             specifications=ast.literal_eval(row["specifications"]),
             store_id=store_id,
             category_id=category_id,

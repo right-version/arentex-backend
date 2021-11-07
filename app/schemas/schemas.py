@@ -1,3 +1,4 @@
+from datetime import date
 from app.models.models import Store, Subcategory
 from typing import Iterable, List, Optional, Any
 
@@ -52,6 +53,8 @@ class ProductBase(BaseModel):
     price: float
     images: list[str]
     thumbnail: Optional[str] = None
+    date: date
+    popularity: float
     specifications: Optional[Any] = None
     store_id: int
     category: CategoryInDB
