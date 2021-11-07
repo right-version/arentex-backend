@@ -1,5 +1,7 @@
 from typing import List, Optional
 
+from numpy import show_config
+
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
@@ -21,7 +23,8 @@ def get_multi(
     store: Optional[int] = None,
     max_price: Optional[int] = None,
     min_price: Optional[int] = None,
-    title: Optional[str] = None
+    title: Optional[str] = None,
+    sort: Optional[str] = None
 ) -> Optional[ProductInDB]:
     query = db.query(Product)
     if category:
@@ -37,6 +40,17 @@ def get_multi(
         query = query.filter(Product.price <= max_price)
     if min_price:
         query = query.filter(Product.price >= min_price)
+    if sort:
+        if sort == "new":
+            query = query.order_by(Product.date.desc())
+        elif sort == "old":
+            query = query.order_by(Product.date.asc())
+        elif sort == "expensive":
+            query = query.order_by(Product.price.desc())
+        elif sort == "cheap":
+            query = query.order_by(Product.price.asc())
+        elif sort == "popular":
+            query = query.order_by(Product.popularity.desc())
     total = query.count()
     return total, query.offset(skip).limit(limit).all()
 
