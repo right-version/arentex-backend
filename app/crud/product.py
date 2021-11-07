@@ -38,11 +38,14 @@ def get_multi(
         query = query.filter(Product.store_id == store)
     
     products = query.all()
-    total_max_price = max(products, key=lambda x: x.price)
-    total_max_price = total_max_price.price if total_max_price else 0
-    total_min_price = min(products, key=lambda x: x.price)
-    total_min_price = total_min_price.price if total_min_price else 0
-    print(total_max_price, total_min_price)
+    if products:
+        total_max_price = max(products, key=lambda x: x.price)
+        total_max_price = total_max_price.price if total_max_price else 0
+        total_min_price = min(products, key=lambda x: x.price)
+        total_min_price = total_min_price.price if total_min_price else 0
+    else:
+        total_max_price = 0
+        total_min_price = 0
     
     if max_price:
         query = query.filter(Product.price <= max_price)
