@@ -53,7 +53,7 @@ class Product(Base):
     images = Column(ARRAY(String))
     thumbnail = Column(String, nullable=True)
     date = Column(DateTime, default=func.now())
-    popularity = Column(Float, default=random.random)
+    popularity = Column(Float, default=0.0)
     specifications = Column(JSON, default={})
     
     store_id = Column(Integer, ForeignKey("stores.id"))

@@ -188,6 +188,7 @@ if __name__ == "__main__":
 
     store_id = (random.sample(stores, k=1))[0][0]
 
+    print("[4/4] Adding products")
     for _, row in arenter.iterrows():
         store_id = (random.sample(stores, k=1))[0][0]
         category_id = next(c for c in categories if c[1] == row["category"])[0]
@@ -206,6 +207,10 @@ if __name__ == "__main__":
             category_id=category_id,
             subcategory_id=subcategory_id
         )
+        if category_id in [11, 1, 5]:
+            new_product.popularity = random.uniform(0.71, 0.999)
+        else:
+            new_product.popularity = random.uniform(0.4, 0.70)
         db.add(new_product)
         db.commit()
         db.refresh(new_product)
